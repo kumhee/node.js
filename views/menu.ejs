@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary bg-primary" data-bs-theme="dark" >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">🏠</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- 메뉴 -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/books">도서검색</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/users">사용자 목록</a>
+            </li>
+        </ul>
+
+        <!-- 로그인 -->
+        <ul class="navbar-nav d-flex">
+            <li class="nav-item" id="login">
+                <a class="nav-link active" aria-current="page" href="/users/login">login</a>
+            </li>
+            <li class="nav-item" id="signup">
+                <a class="nav-link active" aria-current="page" href="/users/insert">signup</a>
+            </li>
+            <li class="nav-item dropdown" style="display: none;" id="mypageDropdown">
+                <a id="username" class="nav-link dropdown-toggle" aria-current="page" href="/users/mypage" role="button" data-bs-toggle="dropdown" aria-expanded="false">uid</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">주문/배송 조회</a></li>
+                    <li><a class="dropdown-item" href="#">장바구니</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </li>
+            <li class="nav-item" style="display: none;" id="logout">
+                <a class="nav-link active" aria-current="page" href="/users/logout">logout</a>
+            </li>
+        </ul>
+        <!-- <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form> -->
+      </div>
+    </div>
+  </nav>
+
+<script>
+    if(sessionStorage.getItem("uid")){
+        $("#login, #signup, #mypageDropdown, #logout").toggle();
+        $("#username").html(sessionStorage.getItem("uid") + "님");
+    }
+
+    $("#logout").on("click", "a", function(e){
+        e.preventDefault(); //로그아웃을 누르면 바로 이벤트가 발생하지 않고
+        if(confirm("로그아웃 하시겠습니까?")){ //확인 후 로그인 한다면
+            sessionStorage.clear(); //세션스토리지에 저장된 값을 지워버린다.
+            location.href="/";
+        } 
+    });
+</script>

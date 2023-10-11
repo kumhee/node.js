@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* default.css */
+*{margin:0; padding:0; vertical-align: top;}
+li{list-style:none;}
+a{text-decoration:none; }
+img{border:0; max-width:100%;}
+body { font-family:'Noto Sans KR', 'Black Han Sans', sans-serif; background: #ffffff; max-width: 1920px; min-width: 320px; margin: 0 auto;}
+
+
+/* header */
+.main_img {width: 100%; height: 400px; background: url('/images/header2.jpg') no-repeat 50% 76%; background-size: 100%;}
+
+/* contents */
+.contents {width: 100%;}
+.sections1 {display: flex; flex-wrap: wrap;}
+.books_img_box {width: 23.5%; height: auto; margin-right: 2%; background: lightgrey; margin-bottom: 50px;}
+.books_img_box:last-child {margin-right: 0;}
+
+.sections2 {margin-bottom: 50px;}
+.benner {width: 100%; height: auto;}
+
+.sections3 {display: flex; flex-wrap: wrap;}
+.box3 {width: 49%; height: 200px; margin-right: 2%; background: lightseagreen;}
+.box3:last-child {margin-right: 0;}
+
+/* login */
+.login_label {width: 100px; font-weight: bold;}
+.login_form {font-weight: bold;}
+
+/* insert */
+.insert_label {width: 100px; font-weight: bold;}
+.insert_form {font-weight: bold;}
+
+/* search */
+#div_books table td {height: 85px; line-height: 85px;}
+.book_search {font-family:'Black Han Sans';}
+#span_page {vertical-align: middle;}
+
+/* users_list */
+#div_users table td {height: 50px; line-height: 50px;}
+.user_list {font-weight: bold;}

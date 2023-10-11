@@ -1,0 +1,113 @@
+<div class="row my-5">
+    <h1 class="text-center mb-5 book_search" >도서검색</h1>
+    
+    <!--검색어 입력-->
+    <div class="row justify-content-end  mb-5">
+        <form name="frm" class="col-md-4">
+            <div class="input-group">
+                <input name="query" class="form-control">
+                <button class="btn btn-secondary">search</button>
+            </div>
+        </form>
+    </div>
+
+    <!--도서검색 결과 출력-->
+    <div id="div_books"></div> 
+
+    <!-- 페이지 이동 -->
+    <div class="text-center">
+        <button id="prev" class="btn btn-secondary">이전</button>
+        <span id="span_page" class="mx-3">1/10</span>
+        <button id="next" class="btn btn-secondary">다음</button>
+    </div>
+</div><!--row-->
+
+<!--도서검색 템플릿-->
+<script id="temp_books" type="x-handlebars-template">
+    <table class="table mb-5">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Title</th>
+              <th scope="col">Authors</th>
+              <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each documents}}
+                <tr>
+                    <td><img src="{{isImage thumbnail}}" width="50px" alt=""></td>
+                    <td style="font-weight: bold;">{{title}}</td>
+                    <td style="font-weight: bold;">{{authors}}</td>
+                    <td style="font-weight: bold;">{{fmtPrice price}}</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+
+<script>
+    Handlebars.registerHelper("isImage", function(image){
+        if(image) {
+            return image;
+        } else {
+            return "http://via.placeholder.com/170x230";
+        }
+    });
+
+    Handlebars.registerHelper("fmtPrice", function(price){
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"
+    });
+</script>
+
+<script>
+    let query = "자바";
+    let page = 1;
+    getBooks();
+
+    //다음페이지
+    $("#next").on("click",function(){
+        page++;
+        getBooks();
+    });
+
+    //이전페이지
+    $("#prev").on("click",function(){
+        page--;
+        getBooks();
+    });
+
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        query=$(frm.query).val();
+        if(query == "") {
+            alert("검색어를 입력하세요!");
+        } else {
+            getBooks();
+        }
+    });
+
+    function getBooks(){
+        $.ajax({
+            type:"get",
+            url:"https://dapi.kakao.com/v3/search/book?target=title",
+            headers:{"Authorization":"KakaoAK d941b9986c1cf774d46d2db43ec99a1a"},
+            data:{query:query, page:page, size:5},
+            success:function(data){
+                console.log(data);
+                const temp=Handlebars.compile($("#temp_books").html());
+                $("#div_books").html(temp(data));
+                const last = Math.ceil(data.meta.pageable_count/5);
+                $("#span_page").html(`${page} / ${last}`);
+
+                // 이전 버튼의 활성화/비활성화 
+                if (page == 1) $("#prev").attr("disabled", true);
+                else $("#prev").attr("disabled", false);
+
+                // 다음 버튼의 활성화/비활성화 
+                if (data.meta.is_end) $("#next").attr("disabled", true);
+                else $("#next").attr("disabled", false);
+            }
+        });
+    }
+</script>

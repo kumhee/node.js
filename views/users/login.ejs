@@ -1,0 +1,64 @@
+<div class="my-5 row justify-content-center">
+    <h1 class="text-center mb-5 login_form">로그인</h1>
+    <form name="frm" class="col-md-6 card p-3 py-4">
+        <div class="row g-3 align-items-center mb-3">
+            <div class="col-auto">
+              <label for="inputID" class="col-form-label login_label">ID</label>
+            </div>
+            <div class="col-auto">
+              <input type="text" id="inputID" class="form-control" aria-describedby="idHelpInline">
+            </div>
+        </div>
+
+        <div class="row g-3 align-items-center mb-4">
+            <div class="col-auto">
+              <label for="inputPassword" class="col-form-label login_label">Password</label>
+            </div>
+            <div class="col-auto">
+              <input type="password" id="inputPassword" class="form-control" aria-describedby="passwordHelpInline">
+            </div>
+            <div class="col-auto">
+              <span id="passwordHelpInline" class="form-text">
+                Must be 8-20 characters long.
+              </span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-secondary col-6 mx-auto mb-2">login</button>
+        <button type="insert" class="btn btn-secondary col-6 mx-auto">signup</button>
+    </form>
+</div>
+
+<script>
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const uid = $("#inputID").val(); 
+        const upass = $("#inputPassword").val(); 
+
+        // 유효성 체크
+        if (uid === "") {
+            alert("아이디를 입력하세요!");
+            $("#inputID").focus();
+        } else if (upass === "") {
+            alert("비밀번호를 입력하세요!");
+            $("#inputPassword").focus();
+        } else {
+            // 로그인 체크
+            $.ajax({
+                type: "post",
+                url: "/users/login",
+                data: {uid:uid, upass:upass},
+                success: function(data){
+                    if(data == 0) {
+                        alert("아이디가 존재하지 않습니다.");
+                    } else if(data == 2) {
+                        alert("비밀번호가 일치하지 않습니다.");
+                    } else {
+                        sessionStorage.setItem("uid", uid);
+                        location.href = "/";
+                    }
+                }
+            });
+        }
+    });
+</script>

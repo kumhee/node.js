@@ -1,0 +1,61 @@
+<div class="my-5 row justify-content-center">
+    <h1 class="text-center mb-5 title">비밀번호 변경</h1>
+    <form name="frm" class="card p-3 col-md-4 change_pw_text" method="post">
+        <input name="uid" type="hidden">
+        <input name="upass" class="form-control mb-3" placeholder="현재 비밀번호" type="password">
+        <input name="npass" class="form-control mb-1" placeholder="새 비밀번호" type="password">
+        <input name="cpass" class="form-control mb-4" placeholder="비밀번호 확인" type="password">
+        <div class="text-center">
+            <button class="btn btn-secondary col-3">변경하기</button>
+            <button class="btn btn-dark col-3" type="reset">취소</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(frm.uid).val(sessionStorage.getItem("uid"));
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const upass = $(frm.upass).val();
+        const npass = $(frm.npass).val();
+        const cpass = $(frm.cpass).val();
+
+        if(upass === "") {
+            alert("현재 비밀번호를 입력해주세요.");
+            $(frm.upass).focus();
+        } else if(npass === "") {
+            alert("새 비밀번호를 입력해주세요.");
+            $(frm.npass).focus();
+        } else if(cpass === "") {
+            alert("비밀번호를 확인해주세요.");
+            $(frm.cpass).focus();
+        } else if(cpass !== npass) {
+            alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+            $(frm.npass).focus();
+        } else {
+            $.ajax({
+                type:"post",
+                url:"/users/login",
+                data:{uid:sessionStorage.getItem('uid'), upass:upass},
+                success:function(data){
+                    if(data == 2){
+                        alert("비밀번호가 일치하지 않습니다.");
+                    } else {
+                        if(confirm("새로운 비밀번호로 변경하시겠습니까?")) {
+                            $.ajax({
+                                type:'post',
+                                url:'/users/change',
+                                data:{uid:sessionStorage.getItem("uid"), npass:npass},
+                                success:function(){
+                                    alert("비밀번호가 변경되었습니다.")
+                                    sessionStorage.clear();
+                                    location.href = "/users/login";
+                                }
+                            })
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>

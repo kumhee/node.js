@@ -1,0 +1,79 @@
+<div class="row my-5">
+    <h1 class="text-center mb-5 title" >도서목록</h1>
+
+    <div class="mb-3 list_total_count">전체 도서수 :<span id="total"></span></div>
+    <div id="div_books"></div> 
+    <div id="pagination" class="pagination justify-content-center mt-5"></div>
+
+</div><!--row-->
+
+<!-- 도서목록 템플릿 -->
+<script id="temp_books" type="x-handlebars-template">
+    <table class="table">
+        <thead>
+            <tr>
+              <th width="5%">0</th>
+              <th width="35%">Title</th>
+              <th width="10%">Price</th>
+              <th width="20%">Authors</th>
+              <th>Contents</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {{#each .}}
+                <tr>
+                    <td>{{bid}}</td>
+                    <td><div class="ellipsis">{{title}}</div></td>
+                    <td>{{price}}</td>
+                    <td><div class="ellipsis">{{authors}}</div></td>
+                    <td><div class="ellipsis">{{contents}}</div></td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+
+
+<script>
+    let page=1;
+    getTotal();
+
+    function getTotal(){
+        $.ajax({
+            type: "get",
+            url: "/books/count",
+            success: function(data) {
+                $("#total").html(data.total + "권");
+                const totalPages = Math.ceil(data.total/5);
+                $("#pagination").twbsPagination("changeTotalPages", totalPages, page);
+            }
+        });    }
+
+    function getBooks(){
+        $.ajax({
+            type:"get",
+            url:"/books/list.json",
+            data:{page},
+            success:function(data){
+                //console.log(data);
+                const temp=Handlebars.compile($("#temp_books").html());
+                $("#div_books").html(temp(data));
+            }
+        });
+    }
+
+    $('#pagination').twbsPagination({
+        totalPages:10, //총 페이지 번호 수
+        visiblePages: 5, // 하단에서 한 번에 보여 지는 페이지 번호 수
+        startPage : 1, // 시작 시 표시되는 현재 페이지
+        initiateStartPageClick: false, // 플러그인이 시작 시 페이지 버튼 클릭 여부 (default : true) 
+        first : '<i class="bi bi-chevron-double-left"></i>', // 페이지네이션 버튼 중 처음으로 돌아가는 버튼에 쓰여 있는 텍스트
+        prev : '<i class="bi bi-chevron-left"></i>', // 이전 페이지 버튼에 쓰여 있는 텍스트
+        next : '<i class="bi bi-chevron-right"></i>', // 다음 페이지 버튼에 쓰여 있는 텍스트
+        last : '<i class="bi bi-chevron-double-right"></i>', // 페이지네이션 버튼 중 마지막으로 가는 버튼에 쓰여 있는 텍스트
+        onPageClick: function (event, clickPage) {
+            page = clickPage; 
+            getBooks(); 
+        }
+    });
+</script>

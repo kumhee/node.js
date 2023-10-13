@@ -1,0 +1,37 @@
+<div class="my-5 row justify-content-center">
+    <h1 class="my-5 text-center title">My page</h1>
+    <div class="col-md-6 card p-5 mypage_box">
+        <div class="mypage_box_contents">
+            <div class="col-md-2 mypage_box_img" style="width: 130px;">
+                <img src="http://via.placeholder.com/100x100" alt="" id="mypage_photo">
+            </div>
+            <div class="col mypage_text">
+                <div>
+                    <p>ID: <%- user.uid %> <a href="/users/change" class="btn btn-dark btn-sm ms-3" id="change">비밀번호 변경</a></p>
+                </div>
+                <p>이름: <%- user.uname %></p>
+                <p>전화: <%- user.phone %></p>
+                <p>주소: <%- user.address1 %> <%- user.address2 %></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a class="btn btn-secondary" href="/users/update?uid=<%= user.uid %>" id="editButton"> 정보수정 </a>
+    </div>
+</div>
+
+<script>
+    const photo = "<%= user.photo %>";
+    if(photo) {
+        $("#mypage_photo").attr("src", "/upload/photo/" + photo);
+    } else {
+        $("#mypage_photo").attr("src", "http://via.placeholder.com/100x100");
+    }
+
+    const uid = "<%- user.uid %>";
+    if(sessionStorage.getItem("uid") != uid) {
+        $("#update").hide();
+        $("#change").hide();
+    }
+</script>

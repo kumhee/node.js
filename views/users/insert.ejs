@@ -31,7 +31,7 @@
                 <label for="inputID" class="col-form-label insert_label">ADDRESS</label>
               </div>
             <input name="address1" class="form-control">
-            <button class="btn btn-secondary">주소 검색</button>
+            <button id="search" type="button" class="btn btn-secondary">주소검색</button>
         </div>
         <div>
             <input name="address2" class="form-control mb-4" placeholder="상세주소">
@@ -46,7 +46,7 @@
 <script>
     let check="false";
 
-    //폼이 서밋될 때
+    //등록버튼을 눌렀을때
     $(frm).on("submit", function(e) {
         e.preventDefault();
         //유효성체크
@@ -73,7 +73,7 @@
     });
 
     //아이디 중복체크
-    $("#check").on("click", function() {
+    $("#check").click(function() {
         const uid=$(frm.uid).val();
         if(uid == ""){
             alert("아이디를 입력하세요.");
@@ -95,7 +95,22 @@
         });
     });
 
-    $(frm.uid).on("change", function(){
+    // 아이디가 변경된 경우
+    $(frm.uid).click(function(){
         check = false;
+    });
+
+    // 주소검색버튼을 클릭한 경우 (카카오 API사용)
+    $("#search").click(function(){
+        new daum.Postcode({
+            oncomplete:function(data){
+                console.log(data);
+                if(data.buildingName != ""){
+                    $(frm.address1).val(data.address + " " + data.buildingName);
+                } else {
+                    $(frm.address1).val(data.address);
+                }
+            }
+        }).open();
     });
 </script>

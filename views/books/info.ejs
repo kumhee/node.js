@@ -1,0 +1,82 @@
+<div class="row my-5 info">
+    <div class="contents_title">
+        <h1 class="text-center mb-5 title" >도서정보</h1>
+    </div>
+
+    <div class="row mb-3 book_contents_wrap">
+        <div class="book_contents">
+            <div class="col-lg-4 mb-3">
+                <img src="<%=book.image%>" alt="" width="70%">
+            </div>
+            <div class="col book_details">
+                <h4 id="title">
+                    [<%=book.bid%>] <%=book.title%> 
+                    <i class="bi bi-heart like" id="like"></i>
+                    <span id="count" class="count"> 0 </span>
+                </h4>
+                <br>
+                <p class="mb-2"><strong>저 자 :</strong> <%=book.authors%></p>
+                <p class="mb-2"><strong>가 격 :</strong> <%=book.fmtprice%>원</p>
+                <p class="mb-2"><strong>등록일 :</strong> <%=book.fmtdate%></p>
+                <p class="mb-2"><strong>출판사 :</strong> <%=book.publisher%></p>
+                <p class="mb-4"><strong>ISBN :</strong> <%=book.isbn%></p>
+                <br>
+                <button class="btn btn-dark btn-sm">장바구니</button>
+                <button class="btn btn-secondary btn-sm">구매하기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    getCheck();
+
+    //빈하트를 클릭해서 채우는
+    $("#title").on("click", ".bi-heart",  function(){
+        if(!sessionStorage.getItem("uid")){
+            sessionStorage.setItem("target", "/books/info?bid=<%=book.bid%>");
+            location.href = "/users/login";
+        } else {
+            $.ajax({
+                type: "post",
+                url: "/books/like/insert",
+                data: {uid:sessionStorage.getItem("uid"), bid:"<%=book.bid%>"},
+                success: function(){
+                    alert("좋아요 추가");
+                    getCheck();
+                }
+            })
+        }
+    })
+
+    //채워진 하트 클릭삭제
+    $("#title").on("click", ".bi-heart-fill",  function(){
+        $.ajax({
+            type: "get",
+            url: "/books/like/delete",
+            data: {uid:sessionStorage.getItem("uid"), bid:"<%=book.bid%>"},
+            success: function(){
+                alert("좋아요 취소");
+                getCheck();
+            }
+        }) 
+    })
+
+    function getCheck(){
+        $.ajax({
+            type:"get",
+            url:"/books/like/check",
+            data:{uid:sessionStorage.getItem("uid"), bid:"<%=book.bid%>"},
+            success:function(data){
+                $("#count").html(data.fcnt);
+                if(data.ucnt == 1) {
+                    $("#like").removeClass("bi-heart");
+                    $("#like").addClass("bi-heart-fill");
+                } else {
+                    $("#like").removeClass("bi-heart-fill");
+                    $("#like").addClass("bi-heart");
+                }
+            }
+        })
+    };
+</script>

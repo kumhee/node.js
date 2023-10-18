@@ -1,12 +1,14 @@
 <div class="row my-5">
-    <h1 class="text-center mb-5 title" >도서검색</h1>
+    <div class="contents_title">
+        <h1 class="text-center mb-5 title" >도서검색</h1>
+    </div>
     
     <!--검색어 입력-->
-    <div class="row justify-content-end  mb-5">
+    <div class="row mb-5">
         <form name="frm" class="col-md-4">
             <div class="input-group">
                 <input name="query" class="form-control">
-                <button class="btn btn-secondary">search</button>
+                <button class="btn btn-outline-secondary">search</button>
             </div>
         </form>
     </div>
@@ -25,7 +27,7 @@
 <!--도서검색 템플릿-->
 <script id="temp_books" type="x-handlebars-template">
     <table class="table">
-        <thead class="table-dark books_thead">
+        <thead class="books_thead">
             <tr>
               <th scope="col"><input type="checkbox" name="" id="all"></th>
               <th scope="col">Image</th>
@@ -35,7 +37,7 @@
               <th scope="col"></th>
             </tr>
         </thead>
-        <tbody class="books_tbody">
+        <tbody class="table-group-divider books_tbody">
             {{#each documents}}
                 <tr>
                     <td><input type="checkbox" class="chk" book="{{toString @this}}"></td>
@@ -73,7 +75,7 @@
 </script>
 
 <script>
-    let query = "아름";
+    let query = "코딩";
     let page = 1;
     getBooks();
 

@@ -4,21 +4,28 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
         <!-- 메뉴 -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
+
             <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/books">도서검색</a>
+                <a class="nav-link active" aria-current="page" href="/books">도서검색</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/users">사용자 목록</a>
-            </li>
+
             <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/books/list">도서목록</a>
-                </li>
+            </li>
+            
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/search">지역검색</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/users">사용자목록</a>
+            </li>
         </ul>
 
         <!-- 로그인 -->
@@ -34,8 +41,8 @@
                 <ul class="dropdown-menu">
                     <li id="mypage"><a class="dropdown-item" href="/users/mypage" >My page</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">주문/배송 조회</a></li>
-                    <li><a class="dropdown-item" href="#">장바구니</a></li>
+                    <li><a class="dropdown-item" aria-current="page" href="#">주문/배송 조회</a></li>
+                    <li><a class="dropdown-item" aria-current="page" href="/books/cart">장바구니</a></li>
                 </ul>
             </li>
             <li class="nav-item" style="display: none;" id="logout">

@@ -1,66 +1,186 @@
 <div class="row my-5">
-    <h1 class="text-center mb-5 title" >도서목록</h1>
+    <div class="contents_title">
+        <h1 class="text-center mb-5 title" >도서목록</h1>
+    </div>
 
-    <div class="mb-3 list_total_count">전체 도서수 :<span id="total"></span></div>
-    <div id="div_books"></div> 
-    <div id="pagination" class="pagination justify-content-center mt-5"></div>
-
+    <div class="mb-5">
+        <div class="row mb-3">
+            <form name="frm" class="col-md-4">
+                <div class="input-group">
+                    <select name="key" class="form-select me-2">
+                        <option value="title">제목</option>
+                        <option value="authors">저자</option>
+                        <option value="publisher">출판사</option>
+                        <option value="contents">내용</option>
+                    </select>
+                    <input name="query" class="form-control" placeholder="검색어">
+                    <button class="btn btn-outline-secondary">검색</button>
+                </div>
+            </form>
+            <div class="mb-3 list_total_count text-end">전체 도서수: <span id="total"></span></div>    
+        </div>
+        <div id="div_books"></div> 
+        <div id="pagination" class="pagination justify-content-center mt-5"></div>
+    </div>
 </div><!--row-->
 
 <!-- 도서목록 템플릿 -->
 <script id="temp_books" type="x-handlebars-template">
     <table class="table">
-        <thead>
+        <thead class="thead_list">
             <tr>
+              <th width="2%"><input type="checkbox" name="" id="all"></th>
+              <th width="5%">Img</th>
               <th width="5%">0</th>
-              <th width="35%">Title</th>
-              <th width="10%">Price</th>
-              <th width="20%">Authors</th>
-              <th>Contents</th>
+              <th width="30%">Title</th>
+              <th width="8%">Authors</th>
+              <th width="40%">Contents</th>
+              <th width="8%">Price</th>
+              <th></th>
             </tr>
         </thead>
-        <tbody class="table-group-divider">
+        <tbody class="table-group-divider tbody_list">
             {{#each .}}
                 <tr>
+                    <td><input type="checkbox" name="" class="chk" bid={{bid}}></td>
+                    <td> <img src="{{isImage image}}" width="30px"></td>
                     <td>{{bid}}</td>
-                    <td><div class="ellipsis">{{title}}</div></td>
-                    <td>{{price}}</td>
+                    <td><div class="ellipsis"><a href="/books/read?bid={{bid}}">{{title}}</a></div></td>
                     <td><div class="ellipsis">{{authors}}</div></td>
                     <td><div class="ellipsis">{{contents}}</div></td>
+                    <td>{{fmtPrice price}}</td>
+                    <td><button bid = "{{bid}}" class="btn btn-outline-secondary btn-sm">🛒</button></td>
+                    <td><button bid = "{{bid}}" class="btn btn-dark btn-sm btn_delete">✕</button></td>
                 </tr>
             {{/each}}
         </tbody>
     </table>
+    <div class="checkbox_btn">
+        <a type="button" class="btn btn-outline-secondary btn-sm">🛒</a>
+        <a type="button" class="sel_delete btn btn-dark btn-sm" id="delete">선택삭제</a>
+    </div>
 </script>
 
+<script>
+    Handlebars.registerHelper("isImage", function(image){
+        if(image) {
+            return image;
+        } else {
+            return "http://via.placeholder.com/170x230";
+        }
+    });
+
+    Handlebars.registerHelper("fmtPrice", function(price){
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원"
+    });
+</script>
 
 <script>
     let page=1;
     getTotal();
 
-    function getTotal(){
-        $.ajax({
-            type: "get",
-            url: "/books/count",
-            success: function(data) {
-                $("#total").html(data.total + "권");
-                const totalPages = Math.ceil(data.total/5);
-                $("#pagination").twbsPagination("changeTotalPages", totalPages, page);
-            }
-        });    }
+    //폼이 서밋인 경우
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        page = 1;
+        getTotal();
+    });
 
-    function getBooks(){
-        $.ajax({
-            type:"get",
-            url:"/books/list.json",
-            data:{page},
-            success:function(data){
-                //console.log(data);
-                const temp=Handlebars.compile($("#temp_books").html());
-                $("#div_books").html(temp(data));
-            }
+    // 선택삭제 버튼을 클릭한 경우
+    $("#div_books").on("click",".sel_delete",function(){
+        const chk = $("#div_books .chk:checked").length;
+        if(chk == 0) {
+            alert("삭제할 도서를 선택해주세요.");
+            return;
+        }
+        if(!confirm(`${chk}개의 도서를 삭제하시겠습니까?`)) return;  
+        $("#div_books .chk:checked").each(function(){
+            const bid = $(this).attr("bid");
+            $.ajax({
+                type: "post",
+                url: "/books/delete",
+                data: {bid},
+                success: function(){
+                    getTotal();
+                }
+            });
         });
-    }
+    });
+
+    // 전체선택 삭제버튼을 클릭한 경우
+    $("#div_books").on("click","#all",function(){
+        if($(this).is(":checked")){
+            $("#div_books .chk").prop("checked", true);
+        } else {
+            $("#div_books .chk").prop("checked", false);
+        }
+    });
+
+    // 각 행의 체크박스를 클릭한 경우(전체선택된 체크 해제)
+    $("#div_books").on("click",".chk",function(){
+        const all = $("#div_books .chk").length;
+        const chk = $("#div_books .chk:checked").length;
+        if(all == chk) {
+            $("#div_books #all").prop("checked", true);
+        } else {
+            $("#div_books #all").prop("checked", false);
+        }
+    });
+
+    // 각 행의 삭제버튼을 클릭한 경우
+    $("#div_books").on("click",".btn_delete",function(){
+        const bid=$(this).attr("bid");
+        if(!confirm(bid + "번 도서를 삭제하시겠습니까?")) return;
+        $.ajax({
+            type:"post",
+            url:"/books/delete",
+            data:{bid:bid},
+            success:function(){
+                alert("삭제가 완료되었습니다.");
+                getTotal(); //삭제 후 리스트 다시 불러오기
+            }
+    })
+});
+
+
+function getTotal(){
+    const key=$(frm.key).val();
+    const query=$(frm.query).val();
+    $.ajax({
+        type:"get",
+        url:"/books/count",
+        data:{key, query},
+        success:function(data){
+            $("#total").html(data.total + "권");
+            if(data.total > 0) {
+                const totalPages = Math.ceil(data.total/5);
+                $("#pagination").twbsPagination("changeTotalPages", totalPages, page)
+            } else {
+                alert("검색결과가 없습니다.");
+                $(frm.query).val("");
+                getTotal();
+            }
+            
+        }
+    });
+}
+
+function getBooks(){
+    const key=$(frm.key).val();
+    const query=$(frm.query).val();
+    //alert(key+query);
+    $.ajax({
+        type:"get",
+        url:"/books/list.json",
+        data:{page, key, query},
+        success:function(data){
+            //console.log(data);
+            const temp=Handlebars.compile($("#temp_books").html());
+            $("#div_books").html(temp(data));
+            const totalPages=20;
+        }
+    });
+}
 
     $('#pagination').twbsPagination({
         totalPages:10, //총 페이지 번호 수

@@ -1,0 +1,98 @@
+<!--지역검색-->
+<div class="row my-5">
+    <div class="contents_title">
+        <h1 class="text-center mb-5 title" >지역검색</h1>
+    </div>
+
+    <!--검색어 입력-->
+    <div class="row mb-5">
+        <form name="frm" class="col-md-4">
+            <div class="input-group">
+                <input name="query" class="form-control" value="영풍문고">
+                <button class="btn btn-outline-secondary">search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="contents">
+        <div id="div_local"></div>
+        <div id="map" style="height:400px;"></div>
+    </div>
+</div><!--row-->
+
+<script id="temp_local" type="x-handlebars-template">
+    <table class="table">
+        <thead class="thead_list">
+            <tr>
+                <th width="20%"> Place </th>                
+                <th width="40%"> Address </th>                
+                <th width="30%"> Phone </th>                
+                <th width="10%"> 위치 </th>                
+            </tr>
+        </thead>
+        <tbody class="table-group-divider tbody_list">
+            {{#each documents}}
+                <tr>
+                    <td> {{place_name}} </td>
+                    <td> {{address_name}} </td>
+                    <td> {{phone_name}} </td>
+                    <td> <button class="btn btn-dark btn-sm" x="{{x}}"  y="{{y}}" name="{{place_name}}"> 위치보기 </button></td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</script>
+
+<script>
+    //위치
+    $("#div_local").on("click", "button", function(){
+        const x = $(this).attr("x");
+        const y = $(this).attr("y");
+        const name = $(this).attr("name");
+        //console.log(x, y, name);
+        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new kakao.maps.LatLng(y, x), //지도의 중심좌표.
+            level: 3 //지도의 레벨(확대, 축소 정도)
+        };
+
+        var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+
+        // 마커가 표시될 위치입니다 
+        var markerPosition  = new kakao.maps.LatLng(y, x); 
+
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+    });
+
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        if($(frm.query).val() == "") {
+            alert("검색어를 입력하세요");
+            $(frm.query).focus();
+        } else {
+            getList();
+        }
+    });
+
+    //검색 결과를 가져오는 function
+    getList();
+    function getList(){
+        $.ajax({
+            type: "get",
+            url: "https://dapi.kakao.com/v2/local/search/keyword.json",
+            data: {query: $(frm.query).val(), size:5},
+            headers: {"Authorization" :"KakaoAK d941b9986c1cf774d46d2db43ec99a1a"},
+            success: function(data){
+                console.log(data);
+                const temp = Handlebars.compile($("#temp_local").html());
+                $("#div_local").html(temp(data));
+            }
+        });
+    }
+</script>

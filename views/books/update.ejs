@@ -1,0 +1,73 @@
+<div class="update my-5">
+    <div class="contents_title">
+        <h1 class="text-center mb-5 title" >도서정보 수정</h1>
+    </div>
+
+    <div class="update_contents">
+        <form name="frm" class="card p-3">
+            <div class="input-group update_input">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label update_label">도서코드</label>
+                    <input type="hidden" name="uid" value="<%=book.bid%>">
+                </div>
+                <input name="bid" class="form-control" value="<%=book.bid%>">
+            </div>
+
+            <div class="input-group update_input">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label update_label">도서제목</label>
+                    <input type="hidden" name="uid" value="<%=book.title%>">
+                </div>
+                <input name="title" class="form-control" value="<%=book.title%>">
+            </div>
+
+            <div class="input-group update_input">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label update_label">도서가격</label>
+                    <input type="hidden" name="uid" value=<%=book.price%>">
+                </div>
+                <input name="price" class="form-control" value="<%=book.price%>">
+            </div>
+
+            <div class="input-group update_input">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label update_label">저자</label>
+                    <input type="hidden" name="uid" value="<%=book.authors%>">
+                </div>
+                <input name="authors" class="form-control" value="<%=book.authors%>">
+            </div>
+
+            <div class="input-group update_input">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label update_label">출판사</label>
+                    <input type="hidden" name="uid" value="<%=book.publisher%>">
+                </div>
+                <input name="publisher" class="form-control" value="<%=book.publisher%>">
+            </div>
+
+            <textarea name="contents" class="form-control mb-3" rows="10"><%=book.contents%></textarea>
+
+            <div class="update_btm_group text-center">
+                <button class="btn btn-secondary">수정</button>
+                <button class="btn btn-dark" type="reset">취소</button>
+            </div>
+
+        </form>
+    </div><!--update_contents-->
+</div>
+
+<script>
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const price = $(frm.price).val();
+        if(price.replace(/[0-9]/g,'')){
+            alert("가격은 숫자로 입력하세요!");
+            $(frm.price).val("<%=book.price%>");
+            $(frm.price).focus();
+            return;
+        }
+        if(!confirm("도서정보를 수정하시겠습니까?")) return;
+        frm.method = "post";
+        frm.submit();
+    });
+</script>

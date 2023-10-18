@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* default.css */
-*{margin:0; padding:0; vertical-align: top;}
-li{list-style:none;}
-a{text-decoration:none; }
-img{border:0; max-width:100%;}
+* {margin:0; padding:0; vertical-align: top;}
+li {list-style:none !important;}
+a {text-decoration:none !important;}
+img {border:0; max-width:100%;}
 body { font-family:'Noto Sans KR', 'Gowun Batang', 'Black Han Sans', sans-serif; background: #ffffff; max-width: 1920px; min-width: 320px; margin: 0 auto;}
 
 /* 공통 css */
@@ -13,31 +13,30 @@ body { font-family:'Noto Sans KR', 'Gowun Batang', 'Black Han Sans', sans-serif;
 .pagination a {position: relative; float: left; padding: 6px 12px; margin-left: -1px; line-height: 1.42857143; color:#000; 
     text-decoration: none; background-color: #fff; border: 1px solid #ddd;}
 .pagination .page-item.active .page-link {background-color: #666; border-color: #666;}
+.btn {cursor: pointer;}
 
 /* header */
 .main_img {width: 100%; height: 400px; background: url('/images/header2.jpg') no-repeat 50% 76%; background-size: 100%;}
 
-/* contents */
-.contents {width: 100%;}
-.sections1 {display: flex; flex-wrap: wrap;}
-.books_img_box {width: 23.5%; height: auto; margin-right: 2%; background: lightgrey; margin-bottom: 50px;}
-.books_img_box:last-child {margin-right: 0;}
+/* menu */
+.menu ul li a {font-size: 14px; letter-spacing: -1px;}
+.menu ul li a:hover {color: #c5c5c5 !important;}
 
-.sections2 {display: flex; flex-wrap: wrap; margin-bottom: 50px;}
-.box2 {width: 49%; height: 200px; margin-right: 2%; background: lightgray;}
-.box2:last-child {margin-right: 0;}
-
-.benner {width: 100%; height: auto;}
+/* home */
+.card-body img { height: 200px; object-fit: cover;}
+.card_footer {font-weight: bold;}
+.ellipsis {font-size: 14px; letter-spacing: -1px;}
+.card_footer {font-size: 15px;}
+.searchResult_total {font-size: 12px; display: flex; justify-content: flex-end;}
 
 /* login */
 .login_label {width: 100px; font-weight: bold;}
 .login_form {font-weight: bold;}
 
 /* insert */
-.insert_label {width: 100px; font-weight: bold;}
 .insert_form {font-weight: bold;}
 
-/* search */
+/* search / book */
 .books_thead {height: 35px; line-height: 35px;}
 .books_thead input[type="checkbox"] {height: 35px; line-height: 35px;}
 .books_tbody {height: 85px; line-height: 85px; cursor: pointer;}
@@ -57,14 +56,14 @@ body { font-family:'Noto Sans KR', 'Gowun Batang', 'Black Han Sans', sans-serif;
 .mypage_text p {margin-bottom: 0;}
 #mypage_photo {border: 1px solid #666; border-radius: 50%; padding: 20px;}
 
-/* updata */
+/* updata(회원정보수정) */
 .update_image {margin-bottom: 20px 0; display: flex; justify-content: center; align-items: center; }
 .profile-image-container {position: relative; display: inline-block; align-items: center; margin-right: 20px; }
 .profile-image { width: 150px; height: 150px; border-radius: 50%; border: 1px solid #ccc; padding: 20px; margin-right: 20px; object-fit: cover;}
 .file_inputbox {margin: 10px 0; width: calc(100% - 20px); box-sizing: border-box;}
 .name {margin-top: 20px;}
 input[name="uname"], input[name="phone"], input[name="address1"], input[name="address2"] {font-size: 12px;}
-
+.insert_label {width: 100px; font-weight: bold;}
 
 /* change */
 .change_pw_text input::placeholder {font-size: 12px;}
@@ -77,6 +76,62 @@ input[name="uname"], input[name="phone"], input[name="address1"], input[name="ad
 .modal_box_btm {font-family: 'Gowun Batang'; font-weight: bold;}
 .modal_imgbox {display: flex; align-items: center; justify-content: center;}
 
-/* book_list */
-.book_list_title {font-family: 'Gowun Batang'; font-weight: bold;}
+/* list */
+.ellipsis a {color: #000;}
+.tbody_list td {letter-spacing: -1px;}
 .list_total_count {font-size: 12px; font-weight: bold;}
+.thead_list {height: 35px; line-height: 35px;}
+.thead_list input[type="checkbox"] {height: 35px; line-height: 35px;}
+.tbody_list {height: 50px; line-height: 50px;}
+.tbody_list input[type="checkbox"] {height: 50px; line-height: 50px;}
+
+/* read */
+.read_contents {font-family: 'Gowun Batang'; font-weight: bold; overflow: hidden;}
+.read_contents_top {display: flex; flex-wrap: wrap; align-items: center; padding: 50px; border-bottom: 1px solid #c5c5c5;}
+.read_contents_img {cursor: pointer;}
+.read_contents_img input {margin-top: 10px; display: none;} 
+.read_contents_title {font-weight: bold; margin-bottom: 20px;}
+.read_contents_text {padding: 0 50px;}
+.read_contents_text button {margin-top: 20px;}
+.read_contents_text p {margin-bottom: 1px;}
+
+.read_contents_btm {padding: 50px;}
+.read_btn {margin-top: 20px;}
+
+@media screen and (max-width: 1024px) {
+    .read_contents_text {margin-top: 50px;}
+}
+
+/* update */
+.update_label {width: 100px; font-weight: bold;}
+.update_input {margin-bottom: 10px;}
+.update_input:last-child {margin-bottom: 20px;}
+input[name="bid"], input[name="title"], input[name="price"], input[name="authors"] , input[name="publisher"] {font-size: 12px; color: #666;}
+textarea[name="contents"] {font-size: 13px; color: #666;}
+
+/* cart */
+.cart{width: 100%; margin: 0 auto; padding:20px;border-radius:8px; background-color:#fff;box-shadow:0 0 10px rgba(0,0,0,.1);}
+.product{display:flex;margin-bottom:20px;padding:10px;border-bottom:1px solid #ddd}
+.product img{width:80px;height:80px;margin-right:10px}
+.product-info{flex-grow:1}
+.product-name{font-weight:bold}
+.product-price{color:#555}
+.quantity{display:flex;align-items:center}
+.quantity input{width:40px;margin:0 5px;padding:5px}
+
+/* local / search */
+.table {width: 100%; border-collapse: collapse; margin-top: 20px;}
+.thead_list th, .tbody_list td {text-align: left; padding: 8px;}
+.thead_list th {background-color: #cccccc;}
+.tbody_list tr:hover {background-color: #e9e9e9;}
+
+/* info */
+.book_contents_wrap {border: 1px solid #ccc;}
+.book_contents {display: flex; justify-content: center; align-items: center; padding: 50px;}
+.book_details {text-align: left; max-width: 55%;}
+.book_details h4 {letter-spacing: -2px;}
+.book_details p {letter-spacing: -1px;}
+.like {color: red; cursor: pointer; }
+.count {font-size: 0.7rem; color: #555;}
+.card_footer {display: flex; justify-content: space-between;}
+

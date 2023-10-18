@@ -1,11 +1,11 @@
 <div>
-    <h1 class="my-5 title">사용자 목록</h1>
+    <h1 class="text-center my-5 title">사용자 목록</h1>
     <div id="div_users"></div>
 </div>
 
 <script id="temp_users" type="x-handlebars-template">
     <table class="table mb-5">
-        <thead class="table-dark ">
+        <thead class="thead_user_list ">
             <tr>
               <th scope="col">Profile</th>
               <th scope="col">Id</th>
@@ -14,7 +14,7 @@
               <th scope="col">Address</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
             {{#each .}}
                 <tr>
                     <td><a href="/users/mypage?uid={{uid}}"> <img src="{{isImage photo}}" width=50 class="list_photo" alt=""> </a></td>

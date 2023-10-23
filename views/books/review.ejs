@@ -1,0 +1,200 @@
+<div class="my-5 review">
+    <div class="contents_title">
+        <h3 class="text-center mb-5 review_title" >리뷰목록</h3>
+    </div>
+
+    <div class="wr_review_wrap">
+        <div id="div-review" style="display: none;">
+            <textarea id="contents" class="form-control" rows="5" placeholder="내용을 입력하세요."></textarea>
+            <div class="text-end mt-2 my-5">
+                <button id="btn-save" class="btn btn-dark btn-sm">등록</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-5" id="div_review"></div>
+    <button id="btn-review" class="btn btn-dark w-30 mb-5">리뷰작성</button>
+
+    <div id="pagination" class="pagination justify-content-center mt-5"></div>
+</div>
+
+<script id="temp_review" type="x-handlebars-template">
+    {{#each .}}
+        <div class="review_contents_wrap">
+            <div>
+                <img src="{{isImage photo}}" width="50px" class="photo review_photo">
+                <div style="font-size:0.8rem; text-align:center; width:50px;" class="mt-2">{{uname}}</div>
+            </div>
+
+            <!-- 보기 -->
+            <div class="col display{{rid}} review_text_wrap">
+                <div style="font-size:0.8rem; color:#c3c3c3;">{{fmtdate}}</div>
+                <div class="ellipsis2 contents" style="cursor:pointer;">
+                    [{{rid}}] {{contents}}
+                </div>
+                <div class="text-end mt-3" style="{{show uid}}">
+                    <button rid="{{rid}}" class="btn btn-outline-secondary btn-sm btn-update">수정</button>
+                    <button rid="{{rid}}" class="btn btn-outline-danger btn-sm btn-delete">삭제</button>
+                </div>
+            </div>
+
+            <!-- 수정 -->
+            <div class="col update{{rid}} review_rewrite" style="display:none;">
+                <div style="font-size:0.8rem; color:#c3c3c3;">{{fmtdate}}</div>
+                <div>
+                    <textarea id="contents{{rid}}" class="form-control rows="10"> {{contents}} </textarea>
+                </div>
+                <div class="text-end mt-" style="{{show uid}}">
+                    <button rid="{{rid}}" class="btn btn-outline-secondary btn-sm btn-save">저장</button>
+                    <button rid="{{rid}}" contents="{{contents}}" class="btn btn-outline-danger btn-sm btn-cancel">취소</button>
+                </div>
+            </div>
+        </div>
+        <hr>
+    {{/each}}
+</script>
+
+<script>
+    Handlebars.registerHelper("show", function(uid){
+        if(uid != sessionStorage.getItem("uid")){
+            return "display:none;";
+        }
+    });
+
+    Handlebars.registerHelper("isImage", function(photo){
+        if(photo) return "/upload/photo/" + photo;
+        else return "http://via.placeholder.com/100x100";
+    });
+</script>
+
+<script>
+    let page=1;
+    getTotal();
+
+    //각행의 저장버튼을 클릭한 경우
+    $("#div_review").on("click", ".btn-save", function(){
+        const rid = $(this).attr("rid");
+        const contents = $("#div_review #contents" + rid).val();
+        if(!confirm(`${rid}번 리뷰를 수정하시겠습니까?`)) return;
+        $.ajax({
+            type: "post",
+            url: "/review/update",
+            data: {rid, contents},
+            success: function(){
+                getTotal();
+            }
+        });
+    });
+
+    //각행의 수정버튼을 클릭한 경우
+    $("#div_review").on("click", ".btn-update", function(){
+        const rid = $(this).attr("rid");
+        $("#div_review .display" + rid).toggle();
+        $("#div_review .update" + rid).toggle();
+    });
+
+    //각행의 취소버튼을 클릭한 경우
+    $("#div_review").on("click", ".btn-cancel", function(){
+        const rid = $(this).attr("rid");
+        $("#div_review .display" + rid).toggle();
+        $("#div_review .update" + rid).toggle();
+        const contents = $(this).attr("contents");
+        $("#div_review #contents" + rid).val(contents)
+    });
+
+    //각 행의 삭제버튼을 클릭한경우
+    $("#div_review").on("click", ".btn-delete", function(){
+        const rid = $(this).attr("rid");
+        if(!confirm(`${rid}번 리뷰를 삭제하시겠습니까?`)) return;
+        $.ajax({
+            type: "post",
+            url: "/review/delete",
+            data: {rid},
+            success: function() {
+                getTotal();
+            } 
+        })
+    });
+
+    //리뷰 등록버튼을 누른경우
+    $("#btn-save").on("click", function(){
+        const contents = $("#contents").val();
+        if(contents == "") {
+            alert("내용을 입력하세요.");
+            $("#contents").focus();
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/review/insert",
+            data: {contents, uid:sessionStorage.getItem("uid"), bid:"<%=book.bid%>"},
+            success: function(data) {
+                getTotal();
+                $("#contents").val("");
+            }
+        });
+    });
+    
+    // 리뷰작성공간
+    if(sessionStorage.getItem("uid")){
+        $("#btn-review, #div-review").toggle();
+    }
+
+    // 리뷰작성 버튼을 클릭한경우
+    $("#btn-review").on("click", function(){
+        sessionStorage.setItem("target", "/books/info?bid=<%=book.bid%>");
+        location.href = "/users/login";
+    });
+
+    //댓글내용을 클릭한경우
+    $("#div_review").on("click", ".contents", function(){
+        $(this).toggleClass("ellipsis2");
+    });
+
+    function getTotal(){
+        $.ajax({
+            type: "get",
+            url: "/review/count",
+            data: {bid:"<%=book.bid%>"},
+            success: function(data) {
+                
+                if(data < 5) {
+                    $("#pagination").hide();
+                } else {
+                    $("#pagination").show();
+                    const totalPages = Math.ceil(data/5);
+                    $("#pagination").twbsPagination("changeTotalPages", totalPages, page)
+                }
+
+            }
+        });
+    }
+    
+    function getReview(){
+        $.ajax({
+            type: "get",
+            url: "/review/list.json",
+            data: {bid:"<%=book.bid%>", page},
+            success: function(data){
+                //console.log(data);
+                const temp = Handlebars.compile($("#temp_review").html());
+                $("#div_review").html(temp(data));
+            }
+        })
+    }
+
+    $('#pagination').twbsPagination({
+        totalPages:10, //총 페이지 번호 수
+        visiblePages: 5, // 하단에서 한 번에 보여 지는 페이지 번호 수
+        startPage : 1, // 시작 시 표시되는 현재 페이지
+        initiateStartPageClick: false, // 플러그인이 시작 시 페이지 버튼 클릭 여부 (default : true) 
+        first : '<i class="bi bi-chevron-double-left"></i>', // 페이지네이션 버튼 중 처음으로 돌아가는 버튼에 쓰여 있는 텍스트
+        prev : '<i class="bi bi-chevron-left"></i>', // 이전 페이지 버튼에 쓰여 있는 텍스트
+        next : '<i class="bi bi-chevron-right"></i>', // 다음 페이지 버튼에 쓰여 있는 텍스트
+        last : '<i class="bi bi-chevron-double-right"></i>', // 페이지네이션 버튼 중 마지막으로 가는 버튼에 쓰여 있는 텍스트
+        onPageClick: function (event, clickPage) {
+            page = clickPage; 
+            getReview(); 
+        }
+    });
+</script>

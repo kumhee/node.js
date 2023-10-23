@@ -1,9 +1,9 @@
-<div class="row my-5 info">
+<div class="my-5 info">
     <div class="contents_title">
         <h1 class="text-center mb-5 title" >도서정보</h1>
     </div>
 
-    <div class="row mb-3 book_contents_wrap">
+    <div class="mb-5 book_contents_wrap">
         <div class="book_contents">
             <div class="col-lg-4 mb-3">
                 <img src="<%=book.image%>" alt="" width="70%">
@@ -21,17 +21,34 @@
                 <p class="mb-2"><strong>출판사 :</strong> <%=book.publisher%></p>
                 <p class="mb-4"><strong>ISBN :</strong> <%=book.isbn%></p>
                 <br>
-                <button class="btn btn-dark btn-sm">장바구니</button>
+                <button id="btn_cart" class="btn btn-dark btn-sm">장바구니</button>
                 <button class="btn btn-secondary btn-sm">구매하기</button>
             </div>
+        </div>
+    </div>
+    <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">도서내용</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">도서리뷰</button>
+        </li>
+    </ul>
+    <div class="tab-content review_content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="px-2"><%=book.contents%></div>
+        </div>
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <%-include("review.ejs")%>
         </div>
     </div>
 </div>
 
 <script>
+    $("#profile-tab").click();
     getCheck();
 
-    //빈하트를 클릭해서 채우는
+    // 빈하트를 클릭해서 채우는
     $("#title").on("click", ".bi-heart",  function(){
         if(!sessionStorage.getItem("uid")){
             sessionStorage.setItem("target", "/books/info?bid=<%=book.bid%>");
@@ -49,7 +66,7 @@
         }
     })
 
-    //채워진 하트 클릭삭제
+    // 채워진 하트 클릭삭제
     $("#title").on("click", ".bi-heart-fill",  function(){
         $.ajax({
             type: "get",
@@ -79,4 +96,26 @@
             }
         })
     };
+
+    // 장바구니 버튼을 클릭한 경우
+    $("#btn_cart").on("click", function(){
+        if(!sessionStorage.getItem("uid")){
+            sessionStorage.setItem("target", "/books/info?bid=<%=book.bid%>");
+            location.href = "/users/login";
+        } else {
+            $.ajax({
+                type : "post",
+                url: "/cart/insert",
+                data: {uid:sessionStorage.getItem("uid"), bid:"<%=book.bid%>"},
+                success: function(data){
+                    if(data == 0) {
+                        alert("장바구니에 추가되었습니다.")
+                    } else {
+                        alert("장바구니에 이미 존재하는 상품입니다.")
+                    }
+                    //if(confirm("장바구니로 이동하시겠습니까?")) location.href="/cart/list";
+                }
+            })
+        }
+    });
 </script>

@@ -175,14 +175,4 @@ router.get('/like/check', function(req, res){
 });
 
 
-
-
-
-
-
-// 장바구니 이동
-router.get('/cart', function(req, res) {
-    res.render('index', {title:'장바구니', pageName:'books/cart.ejs'})
-});
-
 module.exports = router;

@@ -1,46 +1,139 @@
-<div class="my-5 row justify-content-center">
-    <h1 class="text-center mb-5 insert_form">회원가입</h1>
-    <form name="frm" class="col-md-6 card p-3" method="post" action="/users/insert">
-        <div class="input-group mb-3">
-            <div class="col-auto">
-                <label for="inputID" class="col-form-label insert_label">ID</label>
+<div class="my-5 ">
+    <section class="insert_wrap row justify-content-center">
+        <h1 class="text-center mb-5 insert_form">회원가입</h1>
+
+        <div class="service_prov_box" style="width: 60%; margin: 0 auto;">
+            <fieldset >
+                <div class="service_prov_r">
+                    <div>
+                        <p class="service_prov_l"><strong>서비스 이용약관</strong></p>
+                    </div>
+                    
+                    <div>
+                        <label for="check_agreement"><strong>동의 (필수)</strong>
+                        <input type="checkbox" name="check_agreement" id="check_agreement" value="Y" class="i_check">
+                        </label>
+                    </div> 
+                </div>
+                <div class="service_prov_txt">
+                  <!-- 이용약관 -->
+                    <div class="privacy_policy">
+                        다음 약관은 공정거래위원회 표준 약관을 기초로 합니다. 한빛출판네트워크<sup>한빛미디어㈜, 한빛아카데미㈜, 한빛비즈㈜</sup>(이하 '회사')에서 운영하는 한빛 웹사이트 표준 약관을 준수합니다. 
+                    <br>
+                    <br>
+                    <h4>제1조(목적)</h4>
+                    <p>본 약관은 한빛출판네트워크<sup>한빛미디어㈜, 한빛아카데미㈜, 한빛비즈㈜</sup>(이하 '회사')가 운영하는 한빛 웹사이트에서 제공하는 인터넷 관련 서비스(이하 '서비스'라 한다)를 이용함에 있어 몰과 이용자의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다. </p>
+                    <br>
+                    <br>
+                    <h4>제2조(정의)</h4>
+                    <p>① "몰"이란 회사가 재화 또는 용역, 서비스를 이용자에게 제공하기 위하여 컴퓨터 등 정보통신설비를 이용하여 재화 또는 용역, 서비스를 거래할 수 있도록 설정한 가상의 영업장을 말하며, 아울러 사이버몰을 운영하는 사업자의 의미로도 사용합니다.</p>
+                    <p>② "이용자"란 "몰"에 접속하여 본 약관에 따라 "몰"이 제공하는 "서비스"를 받는 회원 및 비회원을 말합니다.</p>
+                    <p>③ '회원'이라 함은 "몰"에 개인정보를 제공하여 회원등록한 자로서, "몰"의 정보를 지속적으로 제공받으며, "몰"이 제공하는 서비스를 계속적으로 이용할 수 있는 자를 말합니다.</p>
+                    <p>④ 비회원'이라 함은 회원에 가입하지 않고 "몰"이 제공하는 서비스를 이용하는 자를 말합니다. </p>
+                    <p>⑤ 'ID’라 함은 이용자가 회원가입 당시 "몰" 등록한 사용자 '개인이용문자’를 말합니다. </p>
+                    <br>
+                    <br>
+                    <h4>제3조(약관의 명시와 개정)</h4>
+                    <p>① "몰"은 본 약관의 내용과 상호, 영업소 소재지, 대표자의 성명, 사업자등록번호, 연락처(전화, 팩스, 전자우편 주소 등) 등을 이용자가 알 수 있도록 사이버몰의 초기 서비스화면에 게시합니다. </p>
+                    <p>② "몰"은 약관의 규제 등에 관한 법률, 전자거래기본법, 전자서명법, 정보통신망 이용 촉진 등에 관한 법률, 방문판매 등에 관한 법률, 소비자보호법 등 관련법을 위배하지 않는 범위에서 이 약관을 개정할 수 있습니다.</p>
+                    <p>③ "몰"이 약관을 개정할 경우에는 적용일자 및 개정사유를 명시하여 현행 약관과 함께 몰의 초기화면에 그 적용일자 7일 이전부터 적용일자 전일까지 공지합니다.</p>
+                    <p>④ "몰"이 약관을 개정할 경우에는 그 개정 약관은 그 적용 일자 이후에 체결되는 계약에만 적용되고 그 이전에 이미 체결된 계약에 대해서는 개정 전의 약관 조항이 그대로 적용됩니다. 다만 이미 계약을 체결한 이용자가 개정 약관 조항의 적용을 받기를 원하는 뜻을 제③항에 의한 개정 약관의 공지 기간 내에 "몰"에 송신하여 "몰"의 동의를 받은 경우에는 개정 약관 조항이 적용됩니다. </p>
+                    <p>⑤ 본 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 정부가 제정한 전자거래소비자보호지침 및 관계법령 또는 상관례에 따릅니다. </p>
+                    </div>
+                <!-- //이용약관 -->
+                </div>
+                <!-- //서비스 이용약관 -->
+                
+                <!-- 개인정보 취급방침 -->
+
+                <div class="service_prov_r">
+                    <div>
+                        <p class="service_prov_l"><strong>개인정보 수집 및 이용 안내</strong></p>
+                    </div>
+                    
+                    <div>
+                        <label for="check_agreement"><strong>동의 (필수)</strong>
+                        <input type="checkbox" name="check_agreement" id="check_agreement" value="Y" class="i_check">
+                        </label>
+                    </div> 
+                </div>
+                
+                <div class="service_prov_txt">
+            <div class="privacy_policy">
+            <h4>개인정보의 수집, 이용 목적</h4>
+            <ul>
+                <li>서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금정산</li>
+                <li>콘텐츠 제공, 구매 및 요금 결제, 물품배송 또는 청구지 등 발송</li>
+                <li>회원제 서비스 이용에 따른 본인확인, 개인 식별, 불량회원의 부정 이용 방지와 비인가 사용 방지, 가입 의사 확인, 불만처리 등 민원처리, 고지사항 전달</li>
+                <li>이벤트 등 광고성 정보 전달 , 접속 빈도 파악 또는 회원의 서비스 이용에 대한 통계</li>
+            </ul>
+            <h4>수집하는 개인정보 항목</h4>
+            <ul>
+                <li>이름, 이메일, 생년월일, 성별, 로그인ID, 비밀번호, 전화번호, 주소, 휴대전화번호, 쿠키(세션), 결제기록</li>
+            </ul>
+            <h4>개인정보의 보유 및 이용기간</h4>
+            <p>수집된 개인정보는 회원가입 해지 시 즉시 파기합니다. 또한 다음의 경우 개인정보의 수집 목적 또는 제공받은 목적이 달성되면 개인정보를 파기합니다.</p>
+            <ul>
+                <li>결제정보의 경우, 대금의 완제일 또는 채권소멸시효기간의 만료된 때</li>
+                <li>배송정보의 경우, 물품 또는 서비스가 인도되거나 제공된 때</li>
+            </ul>
+            <p>단, 전자상거래등에서의소비자보호에관한법률 제6조에 의거 성명, 주소, 주민등록번호 등 거래의 주체를 식별할 수 있는 정보에 한하여 서비스 이용에 관한 동의를 철회한 경우에도 이를 보존할 수 있으며, 동법 시행령 제6조에 의거 다음과 같이 거래 기록을 보관합니다.</p>
+            <ul>
+                <li>표시, 광고에 관한 기록 : 6월</li>
+                <li>계약 또는 청약철회 등에 관한 기록 : 5년</li>
+                <li>대금결제 및 재화등의 공급에 관한 기록 : 5년</li>
+                <li>소비자의 불만 또는 분쟁처리에 관한 기록 : 3년</li>
+                <li>상법, 전자상거래등에서의소비자보호에 관한 법률 등 관련 법령의 규정에 의하여 개인정보를 보존할 필요성이 있는 경우 : 법정 기간</li>
+            </ul>
+        </div>
+        <!-- //개인정보취급방침 -->
               </div>
-            <input name="uid" class="form-control">
-            <button id="check" class="btn btn-secondary" type="button">중복체크</button>
-        </div>
-        <div class="input-group mb-3">
-            <div class="col-auto">
-                <label for="inputID" class="col-form-label insert_label">PW</label>
-              </div>
-            <input name="upass" class="form-control" type="password">
-        </div>
-        <div class="input-group mb-3">
-            <div class="col-auto">
-                <label for="inputID" class="col-form-label insert_label">NAME</label>
-              </div>
-            <input name="uname" class="form-control" type="uname">
-        </div>
-        <div class="input-group mb-3">
-            <div class="col-auto">
-                <label for="inputID" class="col-form-label insert_label">PHONE</label>
-              </div>
-            <input name="phone" class="form-control">
-        </div>
-        <div class="input-group mb-2">
-            <div class="col-auto">
-                <label for="inputID" class="col-form-label insert_label">ADDRESS</label>
-              </div>
-            <input name="address1" class="form-control">
-            <button id="search" type="button" class="btn btn-secondary">주소검색</button>
-        </div>
-        <div>
-            <input name="address2" class="form-control mb-4" placeholder="상세주소">
-        </div>
-        <div class="text-center">
-            <button class="btn btn-secondary col-2">등록</button>
-            <button class="btn btn-dark col-2" type="reset">취소</button>
-        </div>
-    </form>
+              <!-- //개인정보 취급방침 -->
+            </fieldset>
+          </div>
+
+        <form name="frm" class="col-md-6 card p-3" method="post" action="/users/insert">
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label insert_label">ID</label>
+                </div>
+                <input name="uid" class="form-control">
+                <button id="check" class="btn btn-secondary" type="button">중복체크</button>
+            </div>
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label insert_label">PW</label>
+                </div>
+                <input name="upass" class="form-control" type="password">
+            </div>
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label insert_label">NAME</label>
+                </div>
+                <input name="uname" class="form-control" type="uname">
+            </div>
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label insert_label">PHONE</label>
+                </div>
+                <input name="phone" class="form-control">
+            </div>
+            <div class="input-group mb-2">
+                <div class="col-auto">
+                    <label for="inputID" class="col-form-label insert_label">ADDRESS</label>
+                </div>
+                <input name="address1" class="form-control">
+                <button id="search" type="button" class="btn btn-secondary">주소검색</button>
+            </div>
+            <div>
+                <input name="address2" class="form-control mb-4" placeholder="상세주소">
+            </div>
+            <div class="text-center">
+                <button class="btn btn-secondary col-2">등록</button>
+                <button class="btn btn-dark col-2" type="reset">취소</button>
+            </div>
+        </form>
+    </section><!--insert_wrap-->
 </div>
 
 <script>

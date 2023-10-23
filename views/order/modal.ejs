@@ -1,0 +1,68 @@
+<div class="modal fade" id="modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel"> 상세정보 </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div id="div_orders"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+<script id="temp_orders" type="x-handlebars-template">
+    <div class="order_list_wrap_box">
+        <div class="order_list_box">
+            <p> 주문번호: {{info.pid}} &nbsp  주문상태: <span style="color:red;">{{status1 info.status}} </span></p>
+            <p> 받은이: {{info.rname}} 주소: {{info.raddress1}} {{info.raddress2}} </p>
+            <p> 주소: {{info.raddress1}} {{info.raddress2}} </p>
+            <p> 전화번호: {{info.phone}} </p>
+            <p> 결재금액: {{info.sum}}원 </p>
+            <br>
+         
+            <table class="table table_class">
+                <thead>
+                    <tr>
+                        <th width="3%">  </th>
+                        <th width="7%"> IMG </th>
+                        <th width="30%"> Title </th>
+                        <th width="5%"> 수량 </th>
+                        <th width="10%"> 가격 </th>
+                        <th width="10%"> 합계 </th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    {{#each books}}
+                        <tr class="list">
+                            <td> {{bid}} </td>
+                            <td> <img src="{{image}}" width="30"> </td>
+                            <td> {{title}} </td>
+                            <td> {{qnt}} </td>
+                            <td> {{fmtprice}}원 </td>
+                            <td> {{fmtsum}}원 </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+            </table>  
+        </div> 
+    </div>
+</script>
+<script>
+    Handlebars.registerHelper("status1", function(status){
+        if(status == 0) {
+            return "결재대기중";
+        } else if(status == 1) {
+            return "결재확인";
+        } else if(status == 2) {
+            return "배송준비중";;
+        } else if(status == 3) {
+            return "배송완료"
+        } else if(status == 4) {
+            return "주문완료"
+        }
+    });
+</script>

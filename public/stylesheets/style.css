@@ -23,18 +23,45 @@ body { font-family:'Noto Sans KR', 'Gowun Batang', 'Black Han Sans', sans-serif;
 .menu ul li a:hover {color: #c5c5c5 !important;}
 
 /* home */
+.bestseller_wrap {margin-bottom: 100px;}
+.bestseller {margin-top: 60px;}
+.home_main_quick {width: 90%; height: 140px; margin: 0 auto 0; border-bottom: 1px solid #e5e7e5;}
+.home_main_quick_wrap {width: 100%; margin: 0 auto; display: flex; flex-wrap: wrap; margin: 50px 0;}
+article.main_quick {width: 16.666%; height: 140px; margin: 0 auto; text-align: center; float: left; overflow: hidden; box-sizing: border-box; border-bottom: 1px solid #e5e7e5;}
+article.main_quick .txt {padding: 13px 0 0; font-size: 12px; line-height: 14px; color: #666; text-align: center;}
+article.main_quick a {display: block;}
+article.main_quick .txt span {display: block; height: 10px; margin: 10px 0 0;}
+article.main_quick .txt strong {font-size: 1.1em; letter-spacing: -1px; color: #222;}
+.section_wrap {display: flex; justify-content: space-between; }
+.section_title, .section2_search {flex: 1;}
+.section_title h4 {font-size: 28px; font-weight: bold; font-family: 'Gowun Batang'; margin-bottom: 0;}
+.section2_search {display: flex; justify-content: flex-end;}
+.section_title {margin-right: 10px;}
+.section2_search input[name="query"] {width: 30%; max-width: 250px;}
 .card-body img { height: 200px; object-fit: cover;}
 .card_footer {font-weight: bold;}
 .ellipsis {font-size: 14px; letter-spacing: -1px;}
+.pagination.pagination-sm {font-size: 12px; line-height: 1.5;}
+.pagination> li > a, .pagination> li > span {padding: 0.25rem 0.5rem;}
 .card_footer {font-size: 15px;}
 .searchResult_total {font-size: 12px; display: flex; justify-content: flex-end;}
 
+
 /* login */
-.login_label {width: 100px; font-weight: bold;}
+.login_label {width: 100px; font-weight:bold;}
 .login_form {font-weight: bold;}
 
 /* insert */
 .insert_form {font-weight: bold;}
+.service_prov_box {margin: 40px 0 0;}
+.service_prov_box .service_prov_l {float: left; font-size: 16px;}
+.service_prov_box .service_prov_r {width: 200px; float: right; text-align: right; vertical-align: middle;}
+.service_prov_txt {height: 180px; clear: both; overflow-y: scroll;  padding: 20px; margin: 0 0 50px; border: 1px solid #aaa; font-size: 13px;
+ color: #555; text-align: left;}
+.privacy_policy {text-align: justify;}
+.privacy_policy h4 {font-size: 16px;}
+.service_prov_box .service_prov_r {width: 100%; display: flex; justify-content: space-between;}
+.service_prov_box .service_prov_r input[type="checkbox"] {height: 25px; line-height: 25px;}
 
 /* search / book */
 .books_thead {height: 35px; line-height: 35px;}
@@ -80,7 +107,7 @@ input[name="uname"], input[name="phone"], input[name="address1"], input[name="ad
 .ellipsis a {color: #000;}
 .tbody_list td {letter-spacing: -1px;}
 .list_total_count {font-size: 12px; font-weight: bold;}
-.thead_list {height: 35px; line-height: 35px;}
+.thead_list {height: 35px; line-height: 35px; text-align: center;}
 .thead_list input[type="checkbox"] {height: 35px; line-height: 35px;}
 .tbody_list {height: 50px; line-height: 50px;}
 .tbody_list input[type="checkbox"] {height: 50px; line-height: 50px;}
@@ -109,16 +136,6 @@ input[name="uname"], input[name="phone"], input[name="address1"], input[name="ad
 input[name="bid"], input[name="title"], input[name="price"], input[name="authors"] , input[name="publisher"] {font-size: 12px; color: #666;}
 textarea[name="contents"] {font-size: 13px; color: #666;}
 
-/* cart */
-.cart{width: 100%; margin: 0 auto; padding:20px;border-radius:8px; background-color:#fff;box-shadow:0 0 10px rgba(0,0,0,.1);}
-.product{display:flex;margin-bottom:20px;padding:10px;border-bottom:1px solid #ddd}
-.product img{width:80px;height:80px;margin-right:10px}
-.product-info{flex-grow:1}
-.product-name{font-weight:bold}
-.product-price{color:#555}
-.quantity{display:flex;align-items:center}
-.quantity input{width:40px;margin:0 5px;padding:5px}
-
 /* local / search */
 .table {width: 100%; border-collapse: collapse; margin-top: 20px;}
 .thead_list th, .tbody_list td {text-align: left; padding: 8px;}
@@ -126,12 +143,69 @@ textarea[name="contents"] {font-size: 13px; color: #666;}
 .tbody_list tr:hover {background-color: #e9e9e9;}
 
 /* info */
-.book_contents_wrap {border: 1px solid #ccc;}
-.book_contents {display: flex; justify-content: center; align-items: center; padding: 50px;}
+.book_contents {display: flex; justify-content: center; align-items: center; padding: 50px; border: 1px solid #ccc;}
 .book_details {text-align: left; max-width: 55%;}
 .book_details h4 {letter-spacing: -2px;}
 .book_details p {letter-spacing: -1px;}
-.like {color: red; cursor: pointer; }
+.like {color: #FF5A5A; cursor: pointer; }
 .count {font-size: 0.7rem; color: #555;}
 .card_footer {display: flex; justify-content: space-between;}
+.review_content {letter-spacing: -1px;}
+/* .nav-link {font-size: 14px;}
+.nav-link.active {font-weight: bold; border-bottom: 2px solid #666;} */
 
+/* review */
+.review_title {font-family: 'Gowun Batang';}
+.review_contents_wrap {display: flex;}
+.review_text_wrap {padding: 0 20px;}
+.review_rewrite {margin: 0 20px;}
+.review_photo {border-radius: 50px;}
+
+/* cart */
+.cart_thead_list {height: 30px; line-height: 30px; text-align: center; letter-spacing: -1px;}
+.cart_thead_list input[type="checkbox"] {height: 30px; line-height: 30px;}
+.cart_tbody_list tr td {width: 50px; height: 50px; vertical-align: middle; text-align: center; letter-spacing: -1px;}
+.cart_tbody_list button {width: 50px; height: 30px; line-height: 30px; vertical-align: middle; border: 1px solid #666; border-radius: 3px; background: #fff;}
+.cart_thead_list tr {height: 30px; line-height: 30px;}
+.cart_sum {font-weight: bold;}
+.cart_check {text-align: center; font-size: 14px;}
+.cart_btn input.qnt {vertical-align: middle;}
+.cart_btn input {width: 45px; height: 30px; padding: 5px; font-size: 14px;}
+.cart_tbody_list tr .cart_bookname {text-align: left;}
+.bi-trash {cursor: pointer; font-size: 1.5rem;}
+.cart_btm_contents {display: flex; justify-content: space-between; margin-bottom: 30px;}
+.cart_btm_sum {font-size: 14px; font-weight: bold; letter-spacing: -1px;}
+.cart_result_box {overflow: hidden;width: 100%; font-size: 15px; letter-spacing: -1px; margin: 30px 0; padding: 25px 0; border: #ddd 1px solid; text-align: center; }
+.cart_submit_btn {display: flex; align-items: center; justify-content: center; text-align: center;}
+.cart_submit_btn .btn_dark {display: inline-block; width: 140px; height: 45px; line-height: 45px; border-radius: 50px; font-size: 15px; margin: 0 5px; 
+    background: #333; color: #FFF; text-align: center;}
+.cart_submit_btn .btn_white {display: inline-block; width: 140px; height: 45px; line-height: 45px; border-radius: 50px; border: 1px solid #cccccc; 
+    font-size: 15px; margin: 0 5px; color: #555; text-align: center;}
+.title span {color: #ccc;}
+
+/* order */
+.order_thead_list {height: 30px; line-height: 30px; text-align: center; letter-spacing: -1px;}
+.order_thead_list input[type="checkbox"] {height: 30px; line-height: 30px;}
+.order_tbody_list tr td {width: 50px; height: 50px; vertical-align: middle; text-align: center; letter-spacing: -1px;}
+.order_thead_list tr {height: 30px; line-height: 30px;}
+.order_tbody_list tr .order_bookname {text-align: left;}
+.order_btm_contents {display: flex; justify-content: space-between; margin-bottom: 100px;}
+.order_btm_sum {font-size: 14px; font-weight: bold; letter-spacing: -1px;}
+.order_title {font-family: 'Gowun Batang'; font-weight: bold;}
+.order_address {display: flex;}
+.order_info_wrap {width: 100%; margin-bottom: 30px; border: 1px solid #ccc; border-radius: 15px;}
+.info_wrap {width: 50%; margin: 0 auto; padding: 50px 0;}
+
+/* order - list + admin.ejs*/
+.list_title {font-family: 'Gowun Batang'; font-weight: bold;}
+.order_list_wrap_box {border: 1px solid #ccc; border-radius: 15px;}
+.order_wrap_box {margin-bottom: 100px;}
+.order_list_box {padding: 50px;}
+.order_list_box p {font-size: 14px; margin-bottom: 2px;}
+.list_tbody_list .list_tbody_status {color: red;}
+.list_thead_list {height: 35px; line-height: 35px; text-align: center; letter-spacing: -1px;}
+.list_tbody_list tr td {width: 50px; height: 50px; vertical-align: middle; text-align: center; letter-spacing: -1px;}
+.list_tbody_list .list_tbody_raddress {text-align: left;}
+
+/* admin.ejs */
+select option {font-size: 14px;}

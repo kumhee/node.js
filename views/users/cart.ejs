@@ -1,0 +1,184 @@
+<div class="my-5 cart">
+    <div class="contents_title">
+        <h3 class="mb-5 title" > <span>My Page <i class="bi bi-chevron-right"></i></span> 장바구니</h3>
+    </div>
+
+    <div id="div_cart"></div>
+
+    <div class="cart_result_box">
+        * <strong>문화비(도서) 소득공제</strong> 시행에 따라 <strong>소득공제가 가능한 "책, eBook"</strong>과 소득공제가 불가능한 "교육, 아이템"은 <strong>별도로 선택 주문</strong>해 주세요.<br>
+        * 소득공제 가능 상품과 불가능 상품을 한번에 주문하실 수 없습니다.
+    </div>
+
+    <div class="cart_submit_btn">
+        <a href="#" class="btn_dark" id="btn_order">주문하기</a>
+        <a href="#" class="btn_white" >쇼핑 계속하기</a>
+    </div>
+</div><!--row-->
+
+<script id="temp_cart" type="x-handlebars-template">
+    <table class="table table_class">
+        <thead class="cart_thead_list">
+            <tr>
+                <th width="3%"  style="cart_select"><input id="all" type="checkbox"></th>
+                <th width="7%"></th>
+                <th width="8%" class="cart_img">상품이미지</th>
+                <th width="47%" class="cart_name">상품정보</th>
+                <th width="10%" class="cart_price">판매가</th>
+                <th width="10%" class="cart_quantity">수량</th>
+                <th width="10%" class="cart_sum">합계</th>
+                <th width="5%" class="cart_del">삭제</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider cart_tbody_list">
+            {{#each .}}
+                <tr>
+                    <td> <input cid="{{cid}}" class="chk" type="checkbox"> </td>
+                    <td > {{cid}} - {{bid}} </td>
+                    <td class="cart_img"> <img src="{{image}}" width="50px"></td>
+                    <td class="cart_bookname"> {{title}} </td>
+                    <td class="cart_price"> {{fmtprice}}원 </td>
+                    <td class="cart_btn"> 
+                        <input class="qnt" value="{{qnt}}" type="number" oninput="isNumber(this)"> 
+                        <button cid="{{cid}}" class="btn-update"> 변경 </button>
+                    </td>
+                    <td class="cart_sum"> {{fmtsum}} </td>
+                    <td> <i class="bi bi-trash" cid="{{cid}}"></i> </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <div class="cart_btm_contents">
+        <div>
+            <button class="btn btn-outline-danger btn-delete" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">선택상품삭제</button>
+        </div>
+        <div class="cart_btm_sum">
+            총 상품금액 : <span id="sum"> 0 </span>
+        </div>
+    </div>
+</script>
+
+<script>
+    Handlebars.registerHelper("fmt", function(sum){
+        return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    });
+</script>
+
+<script>
+    getCart();
+
+    // 주문하기 버튼을 클릭한 경우
+    $("#btn_order").on("click", function(){
+        const cnt = $("#div_cart .chk:checked").length;
+        if(cnt == 0) {
+            alert("주문하실 상품을 선택해주세요.");
+        } else {
+            let cart = [];
+            $("#div_cart .chk:checked").each(function(){
+                const cid = $(this).attr("cid");
+                cart.push(cid);
+            });
+            location.href = "/order/insert?cart=" + cart.join();
+        }
+    })
+
+    // 선택상품삭제 버튼을 클릭한경우
+    $("#div_cart").on("click", ".btn-delete", function(){
+        const chk = $("#div_cart .chk:checked").length;
+        if(chk == 0) {
+            alert("삭제할 상품을 1개 이상 선택해주세요.")
+            return;
+        }
+        $("#div_cart .chk:checked").each(function(){
+            const cid = $(this).attr("cid");
+            $.ajax({
+                type: "post",
+                url: "/cart/delete",
+                data: {cid},
+                success: function(){}
+            })
+            getCart();
+        });
+    })
+
+    // all 체크박스를 클릭한 경우
+    $("#div_cart").on("click", "#all", function(){
+        if($(this).is(":checked")){
+            $("#div_cart .chk").prop("checked", true);
+        } else {
+            $("#div_cart .chk").prop("checked", false);
+        }
+    });
+
+    // 각 행의 chk를 클릭한 경우
+    $("#div_cart").on("click", ".chk", function(){
+        const all = $("#div_cart .chk").length;
+        const chk = $("#div_cart .chk:checked").length;
+        if(all == chk){
+            $("#div_cart #all").prop("checked", true);
+        } else {
+            $("#div_cart #all").prop("checked", false);
+        }
+    });
+
+    //변경버튼을 클릭한 경우
+    $("#div_cart").on("click", ".btn-update", function(){
+        const cid = $(this).attr("cid");
+        const qnt = $(this).parent().find(".qnt").val();
+        if(qnt == "") {
+            $(this).parent().find(".qnt").val(1);
+            return;
+        }  
+        if(confirm(`수량을 ${qnt}권으로 변경하시겠습니까?`)) {
+            $.ajax({
+                type: "post",
+                url: "/cart/update",
+                data: {cid, qnt},
+                success: function(){
+                    getCart();
+                }
+            })
+        }
+    });
+
+    // 숫자인 경우에만 입력
+    function isNumber(item){
+        item.value = item.value.replace(/[^0-9]/g,'');
+    }
+
+    //삭제 아이콘을 클릭한 경우
+    $("#div_cart").on("click", ".bi-trash", function(){
+        const cid=$(this).attr("cid");
+        if(confirm(`${cid}번 도서를 삭제하시겠습니까?`)){
+            $.ajax({
+                type:"post",
+                url:"/cart/delete",
+                data:{cid},
+                success:function(){
+                    getCart();
+                }
+            });
+        }
+    });
+
+    function getCart() {
+        $.ajax({
+            type: "get",
+            url: "/cart/list.json",
+            data: { uid: sessionStorage.getItem("uid") },
+            success: function (data) {
+                console.log(data);
+                const temp = Handlebars.compile($("#temp_cart").html());
+                $("#div_cart").html(temp(data));
+    
+                let sum = 0;
+                data.forEach(item => {
+                    sum += parseInt(item.sum);
+                });
+    
+                $("#sum").html(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+            }
+        });
+    }
+    
+</script>

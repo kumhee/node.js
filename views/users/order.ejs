@@ -1,0 +1,168 @@
+<div class="my-5 cart">
+    <div class="contents_title">
+        <h3 class="mb-5 title" > <span>My Page <i class="bi bi-chevron-right"></i></span> 주문하기</h3>
+        <h3 class="mb-4 text-center order_title"> 주문상품 </h3>
+        <div id="div_order"></div>
+
+        <div class="text-center">
+            <button class="btn btn-secondary col-1" id="btn_order">주문하기</button>
+            <button class="btn btn-dark col-1" type="reset">취소</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    Handlebars.registerHelper("toString", function(book){
+        return JSON.stringify(book);
+    });
+</script>
+
+<script id="temp_order" type="x-handlebars-template">
+    <table class="table table_class">
+        <thead class="order_thead_list">
+            <tr>
+                <th width="3%"  style="order_select"><input id="all" type="checkbox"></th>
+                <th width="8%"> 상품이미지 </th>
+                <th width="40%"> 상품정보 </th>
+                <th width="10%"> 판매가 </th>
+                <th width="10%"> 수량 </th>
+                <th width="10%"> 합계 </th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider order_tbody_list">
+            {{#each order}}
+                <tr class="book" book="{{toString @this}}">
+                    <td> <input cid="{{cid}}" class="chk" type="checkbox"> </td>
+                    <td> <img src="{{image}}" width="50px"></td>
+                    <td class="order_bookname"> {{title}} </td>
+                    <td> {{fmtprice}}원 </td>
+                    <td> {{qnt}} </td>
+                    <td> {{fmtsum}}원 </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    <div class="order_btm_contents">
+        <div>
+            <button class="btn btn-outline-danger btn-delete" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">선택상품삭제</button>
+        </div>
+        <div class="order_btm_sum">
+            주문총액 : <span id="sum"> 0원 </span>
+        </div>
+    </div>
+
+    <h3 class="mb-4 text-center order_title" >주문자 정보 </h3>
+    <div class="order_info_wrap">
+        <div class="info_wrap">
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label class="col-form-label insert_label">주문자명</label>
+                </div>
+                <input id="rname" class="form-control" value="{{user.uname}}">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label class="col-form-label insert_label">전화번호</label>
+                </div>
+                <input id="rphone" class="form-control" value="{{user.phone}}">
+            </div>
+
+            <div class="input-group mb-2">
+                <div class="col-auto">
+                    <label class="col-form-label insert_label">주소</label>
+                </div>
+                <input id="raddress1" class="form-control" value="{{user.address1}}">
+                <button type="button" class="btn btn-dark">주소검색</button>
+            </div>
+
+            <div>
+                <input id="raddress2" class="form-control mb-3" value="{{user.address2}}">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="col-auto">
+                    <label class="col-form-label insert_label">주문금액</label>
+                </div>
+                <input id="sum1" class="form-control" value="{{user.phone}}">
+            </div>
+        </div>
+    </div>
+
+</script>
+
+<script>
+    const cart = "<%=cart%>";
+    getOrder();
+
+    // 주문하기 버튼을 클릭했을때
+    $("#btn_order").on("click", function(){
+        if(confirm("상품을 구매하시겠습니까?")) {
+            const uid = sessionStorage.getItem("uid");
+            const rname = $("#div_order #rname").val();
+            const rphone = $("#div_order #rphone").val();
+            const raddress1 = $("#div_order #raddress1").val();
+            const raddress2 = $("#div_order #raddress2").val();
+            const sum = $("#div_order #sum1").val();
+            $.ajax({
+                type: "post",
+                url: "/order/purchase/insert",
+                data: {uid, rname, rphone, raddress1, raddress2, sum},
+                success: function(pid){
+                    alert(pid);
+                    $("#div_order .book").each(async function(){
+                        const book = JSON.parse ($(this).attr("book"));
+                        console.log(book);
+                        await $.ajax({
+                            type: "post",
+                            url: "/order/book/insert",
+                            data: {...book, pid}
+                        })
+                    });
+                    alert("주문이 완료되었습니다.");
+                    location.href = "/";
+                }
+            });
+        }
+    })
+
+    function getOrder(){
+        $.ajax({
+           type: "get",
+           url: "/order/cart.json",
+           data: {cart, uid:sessionStorage.getItem("uid")}, 
+           success: function(data){
+                console.log(data.user)
+                const temp = Handlebars.compile($("#temp_order").html());
+                $("#div_order").html(temp(data));
+                let sum = 0;
+                data.order.forEach(item => {
+                    sum += parseInt(item.sum);
+                });
+                $("#sum").html(sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " 원");
+                $("#div_order #sum1").val(sum);
+           }
+        });
+    }
+
+    // all 체크박스를 클릭한 경우
+    $("#div_order").on("click", "#all", function(){
+        if($(this).is(":checked")){
+            $("#div_order .chk").prop("checked", true);
+        } else {
+            $("#div_order .chk").prop("checked", false);
+        }
+    });
+
+    // 각 행의 chk를 클릭한 경우
+    $("#div_order").on("click", ".chk", function(){
+        const all = $("#div_order .chk").length;
+        const chk = $("#div_order .chk:checked").length;
+        if(all == chk){
+            $("#div_order #all").prop("checked", true);
+        } else {
+            $("#div_order #all").prop("checked", false);
+        }
+    });
+</script>

@@ -1,32 +1,138 @@
-<div class="my-5">    
-    <div class="contents_title">
+<div >    
+    <!-- <section class="contents_title">
         <h1 class="text-center mb-5 title">..</h1>
-    </div>
-    <!-- <h1 class="my-5 title">home</h1> -->
-    <div class="row mb-5 justify-content-end">
-        <form name="frm" class="col-md-4">
-            <div class="input-group mb-1">
-                <input name="query" class="form-control" placeholder="검색어">
-                <button class="btn btn-outline-secondary">search</button>
-            </div>
-            <div class="searchResult_total">
-                <span id="total">0권</span>
-            </div>
-        </form>
-    </div>
-    <div class="row contents" id="div_books"></div>
-    <div id="pagination" class="pagination justify-content-center mt-5"></div>
+    </section> -->
+
+    <section id="home_main_quick" class="bestseller_wrap">
+        <div class="home_main_quick_wrap">
+            <article class="main_quick">
+                <div class="txt">
+                    <p>
+                        <a href="#" target="_blank">
+                            <i class="bi bi-journal-text" style="font-size: 3rem; color:#666"></i>
+                            <span class="icon_plan"></span>
+                            <br>
+                            <strong>기획/원고 모집</strong>
+                        </a>
+                    </p>
+                </div>
+            </article>
+
+            <article class="main_quick">
+                <div class="txt">
+                    <p>
+                        <a href="#" target="_blank">
+                            <i class="bi bi-mortarboard" style="font-size: 3rem; color:#666"></i>
+                            <span class="icon_plan"></span>
+                            <br>
+                            <strong>교수전용</strong>
+                        </a>
+                    </p>
+                </div>
+            </article>
+
+            <article class="main_quick">
+                <div class="txt">
+                    <p>
+                        <a href="#" target="_blank">
+                            <i class="bi bi-buildings" style="font-size: 3rem; color:#666"></i>
+                            <span class="icon_plan"></span>
+                            <br>
+                            <strong>대관서비스</strong>
+                        </a>
+                    </p>
+                </div>
+            </article>
+
+            <article class="main_quick">
+                <div class="txt">
+                    <p>
+                        <a href="#" target="_blank">
+                            <i class="bi bi-download" style="font-size: 3rem; color:#666"></i>
+                            <span class="icon_plan"></span>
+                            <br>
+                            <strong>부록/예제소스</strong>
+                        </a>
+                    </p>
+                </div>
+            </article>
+
+            <article class="main_quick">
+                <div class="txt">
+                    <p>
+                        <a href="#" target="_blank">
+                            <i class="bi bi-info-circle" style="font-size: 3rem; color:#666"></i>
+                            <span class="icon_plan"></span>
+                            <br>
+                            <strong>자주묻는질문</strong>
+                        </a>
+                    </p>
+                </div>
+            </article>
+
+            <article class="main_quick">
+                <div class="txt">
+                    <p>
+                        <a href="#" target="_blank">
+                            <i class="bi bi-globe" style="font-size: 3rem; color:#666"></i>
+                            <span class="icon_plan"></span>
+                            <br>
+                            <strong>FOREIGN RIGHTS</strong>
+                        </a>
+                    </p>
+                </div>
+            </article>
+        </div>
+
+        <div class="bestseller">
+            <form name="frm">
+                <div class="input-group mb-1 section_wrap">
+                    <div class="section_title">
+                        <h4>베스트셀러</h4>
+                    </div>
+                    
+                    <div class="input-group section2_search">
+                        <input name="query" class="form-control" placeholder="검색어">
+                        <button class="btn btn-outline-secondary">search</button>
+                    </div>
+                </div>
+                <div class="searchResult_total mb-3">
+                    <span id="total">0권</span>
+                </div>
+            </form>
+
+            <div class="row contents" id="div_books"></div>
+            <div id="pagination" class="pagination justify-content-center mt-5 "></div> 
+        </div>
+    </section>
+    
+    
+
+
+
+    <section class="contents">
+        <!-- <div class="section_title">
+            <h4>ddd</h4>
+        </div> -->
+        <div class="">
+            <img src="images/banner.png" alt="">
+        </div>
+    </section>
 </div>
+
+
 
 <script id="temp_books" type="x-handlebars-template">
     {{#each .}}
         <div class="col-md-4 col-lg-2 col-sm-6">
-            <div class="card mb-3">
+            <div class="card mb-3 book-card">
                 <div class="card-body">
-                    <a href="/books/info?bid={{bid}}">
-                        <img src="{{isImage image}}" alt="" width="90%">
+                    <a href="/books/info?bid={{bid}}" class="book-link">
+                        <img src="{{isImage image}}" alt="" width="90%" class="book-image">
+                        <div class="book-info">
+                            <div class="ellipsis mt-3"> {{title}} </div>
+                        </div>
                     </a>
-                    <div class="ellipsis mt-3"> {{title}} </div>
                 </div>
                 <div class="card-footer card_footer">
                     {{fmtPrice price}}
@@ -151,4 +257,5 @@
             getBooks(); 
         }
     });
+
 </script>

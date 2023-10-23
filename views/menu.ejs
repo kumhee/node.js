@@ -1,67 +1,80 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary bg-primary" data-bs-theme="dark" >
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Ξ</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
-        <!-- 메뉴 -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-            </li>
+<div class="wrap">
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary bg-primary" data-bs-theme="dark" >
+            <div class="container-fluid">
+            <a class="navbar-brand" href="#">Ξ</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse menu" id="navbarSupportedContent">
+                <!-- 메뉴 -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
 
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/books">도서검색</a>
-            </li>
+                    <li class="nav-item" id="search" style="display: none;">
+                        <a class="nav-link active" aria-current="page" href="/books">도서검색</a>
+                    </li>
 
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/books/list">도서목록</a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/search">지역검색</a>
-            </li>
+                    <li class="nav-item" id="books" style="display: none;">
+                        <a class="nav-link active" aria-current="page" href="/books/list">도서목록</a>
+                    </li>
 
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/users">사용자목록</a>
-            </li>
-        </ul>
+                    <li class="nav-item" id="users" style="display: none;">
+                        <a class="nav-link active" aria-current="page" href="/users">사용자목록</a>
+                    </li>
 
-        <!-- 로그인 -->
-        <ul class="navbar-nav d-flex">
-            <li class="nav-item" id="login">
-                <a class="nav-link active" aria-current="page" href="/users/login">login</a>
-            </li>
-            <li class="nav-item" id="signup">
-                <a class="nav-link active" aria-current="page" href="/users/insert">signup</a>
-            </li>
-            <li class="nav-item dropdown" style="display: none;" id="mypageDropdown">
-                <a id="username" class="nav-link dropdown-toggle" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">uid</a>
-                <ul class="dropdown-menu">
-                    <li id="mypage"><a class="dropdown-item" href="/users/mypage" >My page</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" aria-current="page" href="#">주문/배송 조회</a></li>
-                    <li><a class="dropdown-item" aria-current="page" href="/books/cart">장바구니</a></li>
+                    <li class="nav-item" id="order2" style="display: none;">
+                        <a class="nav-link active" aria-current="page" href="/order/admin">주문관리</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/search">지역검색</a>
+                    </li>
                 </ul>
-            </li>
-            <li class="nav-item" style="display: none;" id="logout">
-                <a class="nav-link active" aria-current="page" href="/users/logout">logout</a>
-            </li>
-        </ul>
-        <!-- <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form> -->
-      </div>
-    </div>
-  </nav>
 
+                <!-- 로그인 -->
+                <ul class="navbar-nav d-flex">
+                    <li class="nav-item" id="login">
+                        <a class="nav-link active" aria-current="page" href="/users/login">login</a>
+                    </li>
+                    <li class="nav-item" id="signup">
+                        <a class="nav-link active" aria-current="page" href="/users/insert">signup</a>
+                    </li>
+                    <li class="nav-item dropdown" style="display: none;" id="mypageDropdown">
+                        <a id="username" class="nav-link dropdown-toggle" aria-current="page" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">uid</a>
+                        <ul class="dropdown-menu">
+                            <li id="mypage"><a class="dropdown-item" href="/users/mypage" >My page</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li id="order" style="display: none;"><a class="dropdown-item" aria-current="page" href="/order">주문/배송 조회</a></li>
+                            <li id="cart" style="display: none;"><a class="dropdown-item" aria-current="page" href="/cart/list">장바구니</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item" style="display: none;" id="logout">
+                        <a class="nav-link active" aria-current="page" href="/users/logout">logout</a>
+                    </li>
+                </ul>
+                <!-- <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form> -->
+            </div>
+            </div>
+        </nav>
+    </header>
+</div>
 <script>
-    if(sessionStorage.getItem("uid")){
-        $("#login, #signup, #mypageDropdown, #logout").toggle();
+    if(sessionStorage.getItem("uid") && sessionStorage.getItem("uid") != "admin"){ // 일반사용자
+        $("#login, #signup, #mypageDropdown, #logout , #order, #cart").toggle();
         $("#username").html(sessionStorage.getItem("uid") + "님");
     }
+
+    if(sessionStorage.getItem("uid") && sessionStorage.getItem("uid") == "admin"){ // 관리자
+        $("#login, #signup, #mypageDropdown, #logout, #search, #users, #books, #order2").toggle();
+        $("#username").html(sessionStorage.getItem("uid") + "님");
+    }
+    
 
     $("#logout").on("click", "a", function(e){
         e.preventDefault(); //로그아웃을 누르면 바로 이벤트가 발생하지 않고
